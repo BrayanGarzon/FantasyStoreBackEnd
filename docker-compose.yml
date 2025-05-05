@@ -1,0 +1,36 @@
+services:
+  FantasyStore:
+    build: .
+    image: fantasyftore
+    container_name: FantasyStore
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    environment:
+      - ENVIRONMENT=development
+    volumes:
+      - .:/src
+      - ./scripts:/scripts
+    command: ["/scripts/start.sh"]
+
+  db:
+    container_name: fantasystore_db
+    image: postgis/postgis:13-3.1
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=fantasystore
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
