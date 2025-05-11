@@ -4,7 +4,7 @@ from django.conf import settings
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
-from .models import Settings, State, City, Product, Image, UnitOfMeasurement
+from .models import Settings, State, City, Product, Image, UnitOfMeasurement, CarouselItemModel, ImageTypeModel
 
 
 class SettingsSerializer(serializers.ModelSerializer):
@@ -13,20 +13,35 @@ class SettingsSerializer(serializers.ModelSerializer):
         fields = ['key', 'value']
 
 
-class ImageSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
+class ImageTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImageTypeModel
+        fields = '__all__'
+
+
+
+class ImageSerializerRequest(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = '__all__'
 
+
+class ImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+    type = ImageTypeSerializer(read_only=True)
+
+    class Meta:
+        model = Image
+        fields = ['id', 'image', 'type']
+
     @extend_schema_field(OpenApiTypes.STR)
-    def get_image(self, image: Image):
-        if image.image:
+    def get_image(self, obj):
+        if obj.image:
             request = self.context.get('request')
             if request is not None:
-                return request.build_absolute_uri(image.image.url)
+                return request.build_absolute_uri(obj.image.url)
             else:
-                return urljoin(settings.BASE_URL, image.image.url)
+                return urljoin(settings.BASE_URL, obj.image.url)
         return ''
 
 
@@ -86,9 +101,26 @@ class ProductServiceRequestSerializer(serializers.ModelSerializer):
 
         return product
 
+
 class ProductServiceResponseSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
     class Meta:
         model = Product
         fields = ['id', 'name', 'description', 'unit_of_measurement', 'units', 'images']
 
+
+class CarouselItemRequestSerializer(serializers.ModelSerializer):
+    image = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all())
+
+    class Meta:
+        model = CarouselItemModel
+        fields = ['title', 'image', 'order']
+
+
+class CarouselItemResponseSerializer(serializers.ModelSerializer):
+    image = ImageSerializer(read_only=True)
+
+    class Meta:
+        model = CarouselItemModel
+        fields = ['id', 'image', 'title']
+        read_only_fields = ['id',]

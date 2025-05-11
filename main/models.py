@@ -120,8 +120,13 @@ class UnitOfMeasurement(models.Model):
         return self.name
 
 
+class ImageTypeModel(models.Model):
+    name = models.CharField(_("Nombre de la imagen"), max_length=255)
+
+
 class Image(models.Model):
     image = models.ImageField(_("Image"), upload_to="images/")
+    type = models.ForeignKey(ImageTypeModel, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Product(models.Model):
@@ -147,4 +152,11 @@ class SingletonModel(models.Model):
     def load(cls):
         obj, created = cls.objects.get_or_create(pk=1)
         return obj
+
+
+class CarouselItemModel(models.Model):
+    title = models.CharField(_("Titulo"), max_length=255)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    order = models.IntegerField(default=1)
+
 
