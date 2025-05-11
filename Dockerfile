@@ -33,6 +33,7 @@ COPY . /src
 
 # Give execute permission to manage.py and start.sh
 RUN chmod +x /src/manage.py
+RUN chmod +x /src/scripts/start.sh
 
 # Use start.sh as the entry point
 CMD ["/src/scripts/start.sh"]
