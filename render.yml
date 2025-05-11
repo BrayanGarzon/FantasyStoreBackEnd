@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: fantasy-store
+    env: docker
+    repo: https://github.com/BrayanGarzon/FantasyStoreBackEnd.git
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: ENVIRONMENT
+        value: development
+      - key: DJANGO_SETTINGS_MODULE
+        value: fantasystore.settings
+      - key: SECRET_KEY
+        generateValue: true
