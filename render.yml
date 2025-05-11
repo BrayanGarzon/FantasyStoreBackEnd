@@ -13,3 +13,5 @@ services:
         value: fantasystore.settings
       - key: SECRET_KEY
         generateValue: true
+      - key: DATABASE_URL
+        value: postgres://fantasy_store_user:wY0OpJy2cn0kz9HCp3M0OuyJ7tbquPvu@dpg-d0gdt7idbo4c73ba26ug-a.oregon-postgres.render.com/fantasy_store_database
