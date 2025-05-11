@@ -21,9 +21,11 @@ class ImageTypeSerializer(serializers.ModelSerializer):
 
 
 class ImageSerializerRequest(serializers.ModelSerializer):
+    type = ImageTypeSerializer(read_only=True)
+
     class Meta:
         model = Image
-        fields = '__all__'
+        fields = ['id', 'image', 'type']
 
 
 class ImageSerializer(serializers.ModelSerializer):
