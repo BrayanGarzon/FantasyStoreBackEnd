@@ -13,4 +13,4 @@ done
 
 echo "✅ Base de datos lista. Ejecutando comando de desarrollo..."
 
-exec /scripts/command-dev.sh
+exec ./scripts/command-dev.sh
