@@ -16,7 +16,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # URL base
-BASE_URL = 'http://localhost:8000'
+BASE_URL = 'https://fantasystorebackend-79vb.onrender.com'
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
@@ -99,7 +99,8 @@ PUSH_NOTIFICATIONS_SETTINGS = {
 
 API_FIREBASE_KEY = os.environ.get('API_FIREBASE_KEY', '')
 
-SPECTACULAR_SETTINGS['SERVERS'] = [{"url": "http://localhost:8000"}]
+SPECTACULAR_SETTINGS['SERVERS'] = [{"url": "http://localhost:8000"}, {"url": BASE_URL}]
+
 PASSWORD_RESET_EXPIRE_DAYS = 1
 
 MAPBOX_API_KEY = os.environ.get('MAPBOX_API_KEY', 'pk.eyJ1IjoiY2FtaWxvOTlnb21leiIsImEiOiJjbTJ0ZmUyNGMwMXQ3MmpwdmIzOG9ncW1jIn0.7jsmF85JK7ZjImoq3MZk3w')
