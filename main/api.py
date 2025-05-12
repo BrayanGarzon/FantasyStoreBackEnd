@@ -2,11 +2,13 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets, permissions, status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
-from .models import Settings, UnitOfMeasurement
-from .serializers import SettingsSerializer, UnitOfMeasurementSerializer
+from .models import Settings, UnitOfMeasurement, Image, ImageTypeModel
+from .serializers import SettingsSerializer, UnitOfMeasurementSerializer, ImageSerializer, \
+    ImageSerializerRequest, ImageTypeSerializer, CarouselItemResponseSerializer, CarouselItemRequestSerializer
 from rest_framework.decorators import action
-from .models import State, City
+from .models import State, City, CarouselItemModel
 from .serializers import (
     StateSerializer, CitySerializer, StateWithCitiesSerializer)
 
@@ -46,7 +48,49 @@ class CityViewSet(viewsets.ReadOnlyModelViewSet):
             {"detail": "Method Not Allowed"},
             status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-class UnitOfMeasurementApi(generics.ListCreateAPIView):
-    queryset = UnitOfMeasurement.objects.all()
+
+
+@extend_schema(tags=['Image Type'])
+class ImageTypeApiView(ModelViewSet):
     permission_classes = [permissions.AllowAny]
-    serializer_class = UnitOfMeasurementSerializer
+    serializer_class = ImageTypeSerializer
+    queryset = ImageTypeModel.objects.all()
+
+
+@extend_schema(tags=['Images'])
+class ImageApiView(generics.ListCreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializerRequest
+
+    @extend_schema(
+        request={
+            'multipart/form-data': {
+                'type': 'object',
+                'properties': {
+                    'image': {
+                        'type': 'string',
+                        'format': 'binary'
+                    },
+                    'type': {
+                        'type': 'integer',
+                    }
+                }
+            }
+        },
+        methods=["post"]
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+
+@extend_schema(tags=['Carousel'])
+class CarouselApiView(ModelViewSet):
+    queryset = CarouselItemModel.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return CarouselItemRequestSerializer
+        return CarouselItemResponseSerializer
