@@ -226,7 +226,7 @@ SPECTACULAR_SETTINGS = {
         'ServiceStatus': 'services.models.ServiceStatus',  # Mapea el campo `status` en el modelo `Service`
     },
 
-    'SERVERS': [{"url": "http://localhost:8000"}],
+    'SERVERS': [{"url": "http://localhost:8000"}, {"url": "https://fantasystorebackend-79vb.onrender.com"}],
 
 }
 
