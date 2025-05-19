@@ -53,7 +53,8 @@ ADDONS = [
     'rest_framework_simplejwt',
     'drf_spectacular',
     'django_filters',
-    'channels'
+    'channels',
+    'storages'
 ]
 
 INSTALLED_APPS = DEPENDENCIES_APPS + ADDONS + PROJECT_APPS
@@ -152,8 +153,8 @@ AUTH_USER_MODEL = 'users.User'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+## MEDIA_URL = '/media/'
+## MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Email Config
 EMAIL_SUBJECT_PREFIX = '[FantasyStore] '
@@ -252,3 +253,19 @@ EMAIL_USE_TLS = True
 NOMINATIM_HOST = os.environ.get('NOMINATIM_HOST', 'nominatim.dev.byteobe.com')
 OSRM_HOST = os.environ.get('OSRM_HOST', 'osrm.dev.byteobe.com')
 SOCKET_SERVICE_URL = os.environ.get('SOCKET_SERVICE_URL', '')
+
+AWS_ACCESS_KEY_ID = get_secret("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = get_secret("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = get_secret("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = get_secret("AWS_S3_REGION_NAME")  # ej: "us-east-1"
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+# Ruta de archivos media (user uploaded)
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+
+DEFAULT_FILE_STORAGE = 'FantasyStore.storage_backends.MediaStorage'
+
+# Opcional: Deshabilitar ACLs
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False  # URLs no firmadas
