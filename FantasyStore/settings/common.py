@@ -267,5 +267,5 @@ MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 DEFAULT_FILE_STORAGE = 'FantasyStore.storage_backends.MediaStorage'
 
 # Opcional: Deshabilitar ACLs
-AWS_DEFAULT_ACL = None
+AWS_DEFAULT_ACL = 'public-read'
 AWS_QUERYSTRING_AUTH = False  # URLs no firmadas
