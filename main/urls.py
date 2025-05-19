@@ -6,7 +6,7 @@ from django.urls import include
 from main.views import home
 from rest_framework import routers
 from main.api import ConfigurationView, StateViewSet, CityViewSet, CarouselApiView, ImageApiView, \
-    ImageTypeApiView
+    ImageTypeApiView, PingView
 
 # api urls
 configurations_api_router = routers.DefaultRouter()
@@ -27,6 +27,7 @@ apiurls = ([
     path('carousel/', include(carousel_api_router.urls)),
     path('image-types/', include(image_api_router.urls)),
     path('image/', ImageApiView.as_view(), name='image'),
+    path('ping/', PingView.as_view(), name='ping'),
 ], 'main')
 
 
