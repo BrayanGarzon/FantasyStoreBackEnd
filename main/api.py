@@ -94,3 +94,11 @@ class CarouselApiView(ModelViewSet):
         if self.action in ['create', 'update', 'partial_update']:
             return CarouselItemRequestSerializer
         return CarouselItemResponseSerializer
+
+
+@extend_schema(tags=["main"])
+class PingView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        return Response({"status": "ok"})
