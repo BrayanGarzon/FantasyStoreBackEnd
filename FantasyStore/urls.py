@@ -9,12 +9,14 @@ from main.urls import apiurls as main_api_urls
 
 from users.urls import apiurls as users_api_urls
 from authentication.urls import apiurls as authentication_api_urls
+from products.urls import apiurls as products_api_urls
 
 
 api_urls = ([
     path('main/', include(main_api_urls, namespace='main')),
     path("authentication/", include(authentication_api_urls, namespace='authentication')),
     path('users/', include(users_api_urls, namespace='users')),
+    path('products/', include(products_api_urls, namespace='products')),
 ], 'api')
 
 urlpatterns = [

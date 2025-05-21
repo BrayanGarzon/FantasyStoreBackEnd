@@ -44,6 +44,7 @@ PROJECT_APPS = [
     'main',
     'users',
     'authentication',
+    'products',
 ]
 
 ADDONS = [
