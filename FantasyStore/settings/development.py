@@ -99,7 +99,7 @@ PUSH_NOTIFICATIONS_SETTINGS = {
 
 API_FIREBASE_KEY = os.environ.get('API_FIREBASE_KEY', '')
 
-SPECTACULAR_SETTINGS['SERVERS'] = [{"url": "http://localhost:8000"}]
+SPECTACULAR_SETTINGS['SERVERS'] = [{"url": "http://localhost:8000"}, {"url": BASE_URL}]
 
 PASSWORD_RESET_EXPIRE_DAYS = 1
 

@@ -123,21 +123,21 @@ class UnitOfMeasurement(models.Model):
 class ImageTypeModel(models.Model):
     name = models.CharField(_("Nombre de la imagen"), max_length=255)
 
+    class Meta:
+        verbose_name = _("Tipo de Imagen")
+        verbose_name_plural = _("Tipos de Imagenes")
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name
+
 
 class Image(models.Model):
     image = models.ImageField(_("Image"), upload_to="images/")
     type = models.ForeignKey(ImageTypeModel, on_delete=models.CASCADE, null=True, blank=True)
 
-
-class Product(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    unit_of_measurement = models.ForeignKey(UnitOfMeasurement, on_delete=models.CASCADE)
-    units = models.IntegerField(default=1)
-    images = models.ManyToManyField(Image, related_name='products', blank=True)
-
     def __str__(self):
-        return self.name
+        return self.image.url.split('/')[-1]
 
 
 class SingletonModel(models.Model):
@@ -154,9 +154,61 @@ class SingletonModel(models.Model):
         return obj
 
 
+class ColorModel(models.Model):
+    name = models.CharField(_("Nombre de la color"), max_length=255)
+    hex = models.CharField(_("Hex"), max_length=255)
+
+    def __str__(self):
+        return self.name
+
+    ## TODO: validate format
+    def save(self, *args, **kwargs):
+        self.hex = self.hex.upper()
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = _("Color")
+        verbose_name_plural = _("Colores")
+        ordering = ("name",)
+
+
+class SizeModel(models.Model):
+    name = models.CharField(_("Nombre de la tamaño"), max_length=255)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _("Tamaño")
+        verbose_name_plural = _("Tamaños")
+        ordering = ("name",)
+
+
+class ProductDistributionModel(models.Model):
+    color = models.ForeignKey(ColorModel, on_delete=models.CASCADE)
+    size = models.ForeignKey(SizeModel, on_delete=models.CASCADE)
+    stock = models.IntegerField(default=1)
+    active = models.BooleanField(default=True)
+    images = models.ManyToManyField(Image, related_name='product_distribution', blank=True)
+
+    def __str__(self):
+        return f"{self.color} - {self.size}"
+
+    class Meta:
+        verbose_name = _("Distribución de Producto")
+        verbose_name_plural = _("Distribuciones de Productos")
+        ordering = ("color", "size")
+
+
 class CarouselItemModel(models.Model):
     title = models.CharField(_("Titulo"), max_length=255)
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
     order = models.IntegerField(default=1)
 
+    def __str__(self):
+        return f"{self.order} - {self.title} - {self.image.image.url.split('/')[-1]}"
 
+    class Meta:
+        verbose_name = _("Carousel Item")
+        verbose_name_plural = _("Carousel Items")
+        ordering = ("order",)
