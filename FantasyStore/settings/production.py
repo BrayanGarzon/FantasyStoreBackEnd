@@ -6,9 +6,12 @@ DEBUG_TOOLBAR = True
 
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-ALLOWED_HOSTS = ['https://fantasystorebackend-79vb.onrender.com', 'localhost', '127.0.0.1', '10.0.2.2', '*']
+ALLOWED_HOSTS = ['fantasystorebackend-79vb.onrender.com', 'localhost', '127.0.0.1', '10.0.2.2', '*']
 SECRET_KEY = get_secret('DJANGO_SECRET_KEY')
 BASE_URL = 'https://fantasystorebackend-79vb.onrender.com'
+
+CORS_ALLOW_CREDENTIALS = True
+
 
 # ADMINS (For error notifications)
 ADMINS = [
@@ -70,23 +73,3 @@ SPECTACULAR_SETTINGS['SERVERS'] = [{"url": BASE_URL}]
 
 API_FIREBASE_KEY = os.environ.get('API_FIREBASE_KEY', '')
 PASSWORD_RESET_EXPIRE_DAYS = 1
-
-
-
-
-## S3
-AWS_ACCESS_KEY_ID = get_secret("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = get_secret("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = get_secret("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME = get_secret("AWS_S3_REGION_NAME")  # ej: "us-east-1"
-
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-
-# Ruta de archivos media (user uploaded)
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-
-DEFAULT_FILE_STORAGE = 'FantasyStore.storage_backends.MediaStorage'
-
-# Opcional: Deshabilitar ACLs
-AWS_DEFAULT_ACL = None
-AWS_QUERYSTRING_AUTH = False  # URLs no firmadas
