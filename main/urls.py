@@ -6,7 +6,7 @@ from django.urls import include
 from main.views import home
 from rest_framework import routers
 from main.api import ConfigurationView, StateViewSet, CityViewSet, CarouselApiView, ImageApiView, \
-    ImageTypeApiView, PingView, DistributionApiView, SizeApiview, ColorApiView
+    ImageTypeApiView, PingView, DistributionApiView, SizeApiview, ColorApiView, ContactApiView
 
 # api urls
 configurations_api_router = routers.DefaultRouter()
@@ -14,6 +14,7 @@ location_api_router = routers.DefaultRouter()
 image_api_router = routers.DefaultRouter()
 carousel_api_router = routers.DefaultRouter()
 product_distribution_api_router = routers.DefaultRouter()
+contact_api_router = routers.DefaultRouter()
 
 
 configurations_api_router.register('', ConfigurationView, basename='configurations')
@@ -24,6 +25,7 @@ carousel_api_router.register(r'carousel', CarouselApiView, basename='carousel')
 product_distribution_api_router.register(r'product-distribution', DistributionApiView, basename='distributions')
 product_distribution_api_router.register(r'product-Sizes', SizeApiview, basename='product-sizes')
 product_distribution_api_router.register(r'product-Colors', ColorApiView, basename='product-colors')
+contact_api_router.register(r'contact', ContactApiView, basename='contact')
 
 apiurls = ([
     path('configurations/', include(configurations_api_router.urls)),
@@ -33,6 +35,7 @@ apiurls = ([
     path('image/', ImageApiView.as_view(), name='image'),
     path('ping/', PingView.as_view(), name='ping'),
     path('product-distribution/', include(product_distribution_api_router.urls)),
+    path('contact/', include(contact_api_router.urls)),
 ], 'main')
 
 

@@ -4,10 +4,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Settings, Image, ImageTypeModel, ColorModel, SizeModel
-from .serializers import SettingsSerializer,  \
+from .models import Settings, Image, ImageTypeModel, ColorModel, SizeModel, ContactModel
+from .serializers import SettingsSerializer, \
     ImageSerializerRequest, ImageTypeSerializer, CarouselItemResponseSerializer, CarouselItemRequestSerializer, \
-    ColorRequestSerializer, ColorResponseSerializer, SizeRequestSerializer, SizeResponseSerializer
+    ColorRequestSerializer, ColorResponseSerializer, SizeRequestSerializer, SizeResponseSerializer, \
+    ContactRequestSerializer, ContactResponseSerializer
 from rest_framework.decorators import action
 from .models import State, City, CarouselItemModel, ProductDistributionModel
 from .serializers import StateSerializer, CitySerializer, StateWithCitiesSerializer, DistributionResponseSerializer, DistributionRequestSerializer
@@ -19,6 +20,18 @@ class ConfigurationView(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.AllowAny]
     queryset = Settings.objects.all()
     serializer_class = SettingsSerializer
+
+
+@extend_schema(tags=['Contact'])
+class ContactApiView(ModelViewSet):
+    queryset = ContactModel.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = ContactResponseSerializer
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return ContactRequestSerializer
+        return ContactResponseSerializer
 
 
 @extend_schema(tags=["main"])

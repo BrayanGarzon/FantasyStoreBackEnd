@@ -1,0 +1,62 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Gracias por suscribirte!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        h1 {
+            text-align: center;
+            color: #42ccd3;
+            font-size: 28px;
+        }
+        p {
+            font-size: 18px;
+            color: #333333;
+        }
+        .button {
+            display: inline-block;
+            font-size: 18px;
+            text-decoration: none;
+            background-color: #B32E22;
+            color: #ffffff;
+            padding: 12px 24px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        .ii a[href] {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Gracias por suscribirte!</h1>
+        <p>Hola {{ email }},</p>
+        <p>Gracias por unirte a nuestra tienda. Ahora formarás parte de nuestra comunidad y serás el primero en enterarte de nuestras novedades, promociones y productos exclusivos.</p>
+
+        <p>¡Nos alegra tenerte con nosotros!</p>
+
+        <p style="text-align: center;">
+            <a href="{{ store_url }}" class="button">Visita la tienda</a>
+        </p>
+
+        <p>Si no te suscribiste a esta tienda, puedes ignorar este correo electrónico.</p>
+    </div>
+</body>
+</html>
