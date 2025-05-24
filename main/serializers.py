@@ -4,7 +4,8 @@ from django.conf import settings
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
-from .models import Settings, State, City, Image, UnitOfMeasurement, CarouselItemModel, ImageTypeModel
+from .models import Settings, State, City, Image, UnitOfMeasurement, CarouselItemModel, ImageTypeModel, \
+    ProductDistributionModel, SizeModel, ColorModel
 
 
 class SettingsSerializer(serializers.ModelSerializer):
@@ -78,23 +79,39 @@ class GeneralMessageSerializer(serializers.Serializer):
     message = serializers.CharField()
 
 
-class ColorRequestSerializer(serializers.Serializer):
+class ColorRequestSerializer(serializers.ModelSerializer):
     class Meta:
+        model = ColorModel
         fields = ['name', 'hex']
 
 
-class ColorResponseSerializer(serializers.Serializer):
+class ColorResponseSerializer(serializers.ModelSerializer):
     class Meta:
+        model = ColorModel
         fields = '__all__'
 
 
-class SizeRequestSerializer(serializers.Serializer):
+class SizeRequestSerializer(serializers.ModelSerializer):
     class Meta:
+        model = SizeModel
         fields = ['name']
 
 
-class SizeResponseSerializer(serializers.Serializer):
+class SizeResponseSerializer(serializers.ModelSerializer):
     class Meta:
+        model = SizeModel
+        fields = '__all__'
+
+
+class DistributionRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductDistributionModel
+        fields = ['color', 'size', 'stock', 'active']
+
+
+class DistributionResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductDistributionModel
         fields = '__all__'
 
 

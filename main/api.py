@@ -4,13 +4,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Settings, UnitOfMeasurement, Image, ImageTypeModel
+from .models import Settings, UnitOfMeasurement, Image, ImageTypeModel, ColorModel, SizeModel
 from .serializers import SettingsSerializer, UnitOfMeasurementSerializer, ImageSerializer, \
-    ImageSerializerRequest, ImageTypeSerializer, CarouselItemResponseSerializer, CarouselItemRequestSerializer
+    ImageSerializerRequest, ImageTypeSerializer, CarouselItemResponseSerializer, CarouselItemRequestSerializer, \
+    ColorRequestSerializer, ColorResponseSerializer, SizeRequestSerializer, SizeResponseSerializer
 from rest_framework.decorators import action
-from .models import State, City, CarouselItemModel
-from .serializers import (
-    StateSerializer, CitySerializer, StateWithCitiesSerializer)
+from .models import State, City, CarouselItemModel, ProductDistributionModel
+from .serializers import StateSerializer, CitySerializer, StateWithCitiesSerializer, DistributionResponseSerializer, DistributionRequestSerializer
+
 
 
 
@@ -19,6 +20,15 @@ class ConfigurationView(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.AllowAny]
     queryset = Settings.objects.all()
     serializer_class = SettingsSerializer
+
+
+@extend_schema(tags=["main"])
+class PingView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        return Response({"status": "ok"})
+
 
 class StateViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.AllowAny]
@@ -84,7 +94,6 @@ class ImageApiView(generics.ListCreateAPIView):
         return self.create(request, *args, **kwargs)
 
 
-
 @extend_schema(tags=['Carousel'])
 class CarouselApiView(ModelViewSet):
     queryset = CarouselItemModel.objects.all()
@@ -96,9 +105,33 @@ class CarouselApiView(ModelViewSet):
         return CarouselItemResponseSerializer
 
 
-@extend_schema(tags=["main"])
-class PingView(APIView):
+@extend_schema(tags=['Product Distribution'])
+class DistributionApiView(ModelViewSet):
     permission_classes = [permissions.AllowAny]
+    queryset = ProductDistributionModel.objects.all()
 
-    def get(self, request):
-        return Response({"status": "ok"})
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return DistributionRequestSerializer
+        return DistributionResponseSerializer
+
+@extend_schema(tags=['Products Colors'])
+class ColorApiView(ModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    queryset = ColorModel.objects.all()
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return ColorRequestSerializer
+        return ColorResponseSerializer
+
+
+@extend_schema(tags=['Products Sizes'])
+class SizeApiview(ModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    queryset = SizeModel.objects.all()
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return SizeRequestSerializer
+        return SizeResponseSerializer

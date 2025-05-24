@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Settings, Image, CarouselItemModel, ColorModel, SizeModel
-
+from .models import Settings, Image, CarouselItemModel, ColorModel, SizeModel, ImageTypeModel
 
 # Register your models here.
 
@@ -8,6 +7,9 @@ from .models import Settings, Image, CarouselItemModel, ColorModel, SizeModel
 class SettingsAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(ImageTypeModel)
+class ImageTypeAdmin(admin.ModelAdmin):
+    pass
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):

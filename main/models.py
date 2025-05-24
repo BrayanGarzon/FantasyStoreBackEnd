@@ -123,6 +123,14 @@ class UnitOfMeasurement(models.Model):
 class ImageTypeModel(models.Model):
     name = models.CharField(_("Nombre de la imagen"), max_length=255)
 
+    class Meta:
+        verbose_name = _("Tipo de Imagen")
+        verbose_name_plural = _("Tipos de Imagenes")
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name
+
 
 class Image(models.Model):
     image = models.ImageField(_("Image"), upload_to="images/")
