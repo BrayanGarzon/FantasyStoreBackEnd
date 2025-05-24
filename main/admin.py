@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Settings, Product, Image, CarouselItemModel
+from .models import Settings, Image, CarouselItemModel, ColorModel, SizeModel
 
 
 # Register your models here.
@@ -8,13 +8,19 @@ from .models import Settings, Product, Image, CarouselItemModel
 class SettingsAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    pass
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(ColorModel)
+class ColorAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(SizeModel)
+class SizeAdmin(admin.ModelAdmin):
+    pass
+
 
 @admin.register(CarouselItemModel)
 class CarouselItemAdmin(admin.ModelAdmin):

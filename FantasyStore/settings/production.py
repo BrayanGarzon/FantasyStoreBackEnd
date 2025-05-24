@@ -79,3 +79,4 @@ CACHES = {
         'LOCATION': os.environ.get('REDIS_URL'),  # Usa la variable de entorno
     }
 }
+
