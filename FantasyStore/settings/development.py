@@ -99,9 +99,8 @@ PUSH_NOTIFICATIONS_SETTINGS = {
 
 API_FIREBASE_KEY = os.environ.get('API_FIREBASE_KEY', '')
 
-SPECTACULAR_SETTINGS['SERVERS'] = [{"url": "http://localhost:8000"}, {"url": BASE_URL}]
+SPECTACULAR_SETTINGS['SERVERS'] = [{"url": "http://localhost:8000"}]
 
 PASSWORD_RESET_EXPIRE_DAYS = 1
 
-MAPBOX_API_KEY = os.environ.get('MAPBOX_API_KEY', 'pk.eyJ1IjoiY2FtaWxvOTlnb21leiIsImEiOiJjbTJ0ZmUyNGMwMXQ3MmpwdmIzOG9ncW1jIn0.7jsmF85JK7ZjImoq3MZk3w')
 
