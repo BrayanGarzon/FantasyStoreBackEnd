@@ -6,9 +6,9 @@ DEBUG_TOOLBAR = True
 
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-ALLOWED_HOSTS = ['https://chilasi.asidigital.co', '*']
+ALLOWED_HOSTS = ['fantasystorebackend-79vb.onrender.com', 'localhost', '127.0.0.1', '10.0.2.2', '*']
 SECRET_KEY = get_secret('DJANGO_SECRET_KEY')
-BASE_URL = 'https://chilasi.asidigital.co'
+BASE_URL = 'https://fantasystorebackend-79vb.onrender.com'
 
 # ADMINS (For error notifications)
 ADMINS = [
@@ -66,7 +66,7 @@ EMAIL_HOST_USER = 'asi-backend'
 EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
 """
 
-SPECTACULAR_SETTINGS['SERVERS'] = [{"url": "https://chilasi.asidigital.co"}]
+SPECTACULAR_SETTINGS['SERVERS'] = [{"url": BASE_URL}]
 
 API_FIREBASE_KEY = os.environ.get('API_FIREBASE_KEY', '')
 PASSWORD_RESET_EXPIRE_DAYS = 1
@@ -79,4 +79,3 @@ CACHES = {
         'LOCATION': os.environ.get('REDIS_URL'),  # Usa la variable de entorno
     }
 }
-
