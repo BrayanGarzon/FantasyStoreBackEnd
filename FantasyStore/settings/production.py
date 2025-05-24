@@ -73,12 +73,6 @@ PASSWORD_RESET_EXPIRE_DAYS = 1
 
 
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': os.environ.get('REDIS_URL'),  # Usa la variable de entorno
-    }
-}
 
 ## S3
 AWS_ACCESS_KEY_ID = get_secret("AWS_ACCESS_KEY_ID")
