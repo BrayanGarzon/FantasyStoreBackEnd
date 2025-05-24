@@ -27,3 +27,5 @@ def home(request):
     </html>
     '''
     return HttpResponse(html_content)
+
+

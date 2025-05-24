@@ -5,13 +5,24 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from .models import Settings, State, City, Image, UnitOfMeasurement, CarouselItemModel, ImageTypeModel, \
-    ProductDistributionModel, SizeModel, ColorModel
+    ProductDistributionModel, SizeModel, ColorModel, ContactModel
 
 
 class SettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Settings
         fields = ['key', 'value']
+
+
+class ContactRequestSerializer(serializers.ModelSerializer):
+   class Meta:
+        model = ContactModel
+        fields = ['name', 'email', 'phone',]
+
+class ContactResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactModel
+        fields = '__all__'
 
 
 class ImageTypeSerializer(serializers.ModelSerializer):

@@ -1,7 +1,12 @@
+from django.conf import settings
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
+from django.template.loader import render_to_string
 from django_extensions.db.fields import AutoSlugField
 from django.utils.translation import gettext_lazy as _
+from django.core.mail import send_mail
+
+
 
 
 
@@ -212,3 +217,41 @@ class CarouselItemModel(models.Model):
         verbose_name = _("Carousel Item")
         verbose_name_plural = _("Carousel Items")
         ordering = ("order",)
+
+
+class ContactModel(models.Model):
+    name = models.CharField(_("Nombre"), max_length=255, blank=True, null=True)
+    email = models.EmailField(_("Email"), max_length=255)
+    phone = models.CharField(_("Telefono"), max_length=255, blank=True, null=True)
+    created = models.DateTimeField(
+        _('Fecha de creación'),
+        auto_now_add=True,
+        help_text='Date time on which the object was created'
+    )
+
+    class Meta:
+        verbose_name = _("Contacto")
+        verbose_name_plural = _("Contactos")
+        ordering = ("name",)
+
+    def __str__(self):
+        return f'{self.name} - {self.email} - {self.phone}'
+
+
+    def save(self, *args, **kwargs):
+        self.email = self.email.lower()
+        store_url = Settings.objects.filter(key='store_url').first().value if Settings.objects.filter(
+            key='store_url').exists() else 'https://www.tutienda.com'
+
+        try:
+            if self.email:
+                subject = _("Subcripcion Para Recivir Notificaciones")
+                html_message = render_to_string("contact.html", {
+                    'email': self.email,
+                    'store_url': store_url,
+                })
+                send_mail(subject, '',  settings.DEFAULT_FROM_EMAIL, [self.email], fail_silently=False,
+                          html_message=html_message)
+        except Exception as e:
+            print(e)
+        super().save(*args, **kwargs)
