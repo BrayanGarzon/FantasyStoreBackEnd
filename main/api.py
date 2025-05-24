@@ -4,14 +4,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Settings, UnitOfMeasurement, Image, ImageTypeModel, ColorModel, SizeModel
-from .serializers import SettingsSerializer, UnitOfMeasurementSerializer, ImageSerializer, \
+from .models import Settings, Image, ImageTypeModel, ColorModel, SizeModel
+from .serializers import SettingsSerializer,  \
     ImageSerializerRequest, ImageTypeSerializer, CarouselItemResponseSerializer, CarouselItemRequestSerializer, \
     ColorRequestSerializer, ColorResponseSerializer, SizeRequestSerializer, SizeResponseSerializer
 from rest_framework.decorators import action
 from .models import State, City, CarouselItemModel, ProductDistributionModel
 from .serializers import StateSerializer, CitySerializer, StateWithCitiesSerializer, DistributionResponseSerializer, DistributionRequestSerializer
-
 
 
 
@@ -57,7 +56,6 @@ class CityViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(
             {"detail": "Method Not Allowed"},
             status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
 
 
 @extend_schema(tags=['Image Type'])
