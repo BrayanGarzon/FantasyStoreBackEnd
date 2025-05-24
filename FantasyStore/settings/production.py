@@ -6,7 +6,7 @@ DEBUG_TOOLBAR = True
 
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-ALLOWED_HOSTS = ['https://fantasystorebackend-79vb.onrender.com', 'localhost', '127.0.0.1', '10.0.2.2', '*']
+ALLOWED_HOSTS = ['fantasystorebackend-79vb.onrender.com', 'localhost', '127.0.0.1', '10.0.2.2', '*']
 SECRET_KEY = get_secret('DJANGO_SECRET_KEY')
 BASE_URL = 'https://fantasystorebackend-79vb.onrender.com'
 
@@ -73,6 +73,12 @@ PASSWORD_RESET_EXPIRE_DAYS = 1
 
 
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.environ.get('REDIS_URL'),  # Usa la variable de entorno
+    }
+}
 
 ## S3
 AWS_ACCESS_KEY_ID = get_secret("AWS_ACCESS_KEY_ID")
