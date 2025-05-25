@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,56 +8,106 @@
     <title>¡Gracias por suscribirte!</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             background-color: #f4f4f4;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
+            color: #333333;
         }
-        .container {
+        .email-wrapper {
             max-width: 600px;
             margin: auto;
             background-color: #ffffff;
-            padding: 30px;
             border-radius: 8px;
-            border: 1px solid #ddd;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
-        h1 {
+        header {
+            background-color: #E4405F;
+            padding: 20px;
             text-align: center;
-            color: #42ccd3;
-            font-size: 28px;
+            height: 150px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
         }
+
+        header > img {
+            max-height: 70%;
+            max-width: 70%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        main {
+            padding: 30px 20px;
+        }
+
+        h1{
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #E4405F;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         p {
-            font-size: 18px;
-            color: #333333;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 10px 0;
         }
+
         .button {
             display: inline-block;
-            font-size: 18px;
-            text-decoration: none;
-            background-color: #B32E22;
-            color: #ffffff;
+            background-color: #E4405F;
+            color: #ffffff !important;
             padding: 12px 24px;
-            margin-top: 20px;
-            border-radius: 4px;
+            margin: 20px auto;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            text-align: center;
         }
-        .ii a[href] {
-            color: #ffffff;
+        footer {
+            background-color: #F7E9E9;
+            padding: 15px;
+            font-size: 12px;
+            text-align: center;
+            color: #777777;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>¡Gracias por suscribirte!</h1>
-        <p>Hola {{ email }},</p>
-        <p>Gracias por unirte a nuestra tienda. Ahora formarás parte de nuestra comunidad y serás el primero en enterarte de nuestras novedades, promociones y productos exclusivos.</p>
+    <div class="email-wrapper">
+        <!-- Header -->
+        <header>
+            <img src="{{ logo_url }}" alt="Logo de la tienda">
+            <h1>Fantasy Store</h1>
+        </header>
 
-        <p>¡Nos alegra tenerte con nosotros!</p>
+        <!-- Content -->
+        <main>
+            <h2>¡Gracias por suscribirte!</h2>
+            <p>Hola <strong>{{ name }}</strong>,</p>
+            <p>Gracias por unirte a nuestra tienda. Ahora eres parte de nuestra comunidad y estarás al tanto de nuestras últimas novedades, promociones y productos exclusivos.</p>
+            <p>¡Nos encanta tenerte con nosotros!</p>
+            <div style="text-align: center;">
+                <a href="{{ store_url }}" class="button">Visita la tienda</a>
+            </div>
+            <p style="font-size: 14px; color: #999999;">Si no te suscribiste a esta tienda, puedes ignorar este correo electrónico.</p>
+        </main>
 
-        <p style="text-align: center;">
-            <a href="{{ store_url }}" class="button">Visita la tienda</a>
-        </p>
-
-        <p>Si no te suscribiste a esta tienda, puedes ignorar este correo electrónico.</p>
+        <!-- Footer -->
+        <footer>
+            © {{ year }} {{ store_name }}. Todos los derechos reservados.<br>
+            <a href="{{ store_url }}" style="color: #999999; text-decoration: none;">{{ store_url }}</a>
+        </footer>
     </div>
 </body>
 </html>

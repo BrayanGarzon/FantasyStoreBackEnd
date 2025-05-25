@@ -3,7 +3,7 @@ from os.path import basename
 
 from django.urls import path
 from django.urls import include
-from main.views import home
+from main.views import home, view_email
 from rest_framework import routers
 from main.api import ConfigurationView, StateViewSet, CityViewSet, CarouselApiView, ImageApiView, \
     ImageTypeApiView, PingView, DistributionApiView, SizeApiview, ColorApiView, ContactApiView
@@ -41,4 +41,5 @@ apiurls = ([
 
 urlpatterns = [
     path('', home, name='home'),
+    path('contact/', view_email, name='contact'),
 ]
