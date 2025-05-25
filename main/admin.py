@@ -1,10 +1,14 @@
 from django.contrib import admin
-from .models import Settings, Image, CarouselItemModel, ColorModel, SizeModel, ImageTypeModel
+from .models import Settings, Image, CarouselItemModel, ColorModel, SizeModel, ImageTypeModel, ContactModel
 
 # Register your models here.
 
 @admin.register(Settings)
 class SettingsAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(ContactModel)
+class ContactAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(ImageTypeModel)

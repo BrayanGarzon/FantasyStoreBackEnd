@@ -28,4 +28,8 @@ def home(request):
     '''
     return HttpResponse(html_content)
 
+def view_email(request):
+    image_url = request.build_absolute_uri('assets/images/Store_Favicon.png')
+    print(image_url)
+    return render(request, 'contact.html', {'name': 'Brayan Camilo Clavijo Gomez', 'logo_url': 'https://fantasy-store.s3.us-east-1.amazonaws.com/media/images/Store_Favicon.png'})
 
