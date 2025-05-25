@@ -33,4 +33,3 @@ def view_email(request):
     print(image_url)
     return render(request, 'contact.html', {'name': 'Brayan Camilo Clavijo Gomez', 'logo_url': 'https://fantasy-store.s3.us-east-1.amazonaws.com/media/images/Store_Favicon.png'})
 
-
