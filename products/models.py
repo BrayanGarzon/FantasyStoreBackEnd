@@ -25,6 +25,9 @@ class ProductModel(models.Model):
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
     category = models.ForeignKey("CategoryProductModel", on_delete=models.CASCADE)
     distributions = models.ManyToManyField(ProductDistributionModel, related_name='products', blank=True)
+    price = models.IntegerField(default=0)
+    care = models.TextField(max_length=255, null=True)
+    details = models.TextField(null=True)
 
     def __str__(self):
         return self.name
