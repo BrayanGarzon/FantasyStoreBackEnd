@@ -41,7 +41,7 @@ class ProductRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductModel
-        fields = ['name', 'description', 'stock', 'is_active', 'image', 'category', 'distributions']
+        fields = ['name', 'description', 'stock', 'is_active', 'image', 'category', 'distributions', 'price', 'care', 'details']
 
 
 class ProductResponseSerializer(serializers.ModelSerializer):
@@ -51,5 +51,5 @@ class ProductResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductModel
-        fields = ['id', 'name', 'description', 'stock', 'is_active', 'image', 'category', 'distributions']
+        fields = ['id', 'name', 'description', 'stock', 'is_active', 'image', 'category', 'distributions', 'price', 'care', 'details']
 
