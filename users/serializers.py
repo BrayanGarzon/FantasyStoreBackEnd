@@ -92,9 +92,9 @@ class RatesUserResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RatesUser
-        fields = ('id', 'user', 'rates', 'comment', 'created')
+        fields = ('id', 'user', 'rate', 'comment', 'created')
 
 class RatesUserRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = RatesUser
-        fields = ('rates', 'comment')
+        fields = ('rate', 'comment')

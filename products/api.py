@@ -1,10 +1,14 @@
+from django.contrib.admin import action
 from drf_spectacular.utils import extend_schema
-from rest_framework import permissions, status
+from rest_framework import permissions, status, generics
+from rest_framework.exceptions import NotFound
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from .models import CategoryProductModel, ProductModel
-from .serializers import CategoryProductRequestSerializer, CategoryProductResponseSerializer, ProductResponseSerializer, ProductRequestSerializer
+from .models import CategoryProductModel, ProductModel, ReleasesProductModel
+from .serializers import CategoryProductRequestSerializer, CategoryProductResponseSerializer, ProductResponseSerializer, \
+    ProductRequestSerializer, ReleasesProductResponseSerializer
 
 
 @extend_schema(tags=['Categories'])
@@ -80,3 +84,37 @@ class ProductsApiView(ModelViewSet):
         serializer_response = ProductResponseSerializer(serializer.instance)
         headers = self.get_success_headers(serializer_response.data)
         return Response(serializer_response.data, status=status.HTTP_201_CREATED, headers=headers)
+
+@extend_schema(tags=["Releases"])
+class ReleasesProductsApiView(ModelViewSet):
+    queryset = ReleasesProductModel.objects.all()
+    serializer_class = ReleasesProductResponseSerializer
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]
+
+
+@extend_schema(tags=["Releases"])
+class ReleasesProductsLastReleaseApiView(GenericAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = ReleasesProductResponseSerializer
+
+
+    @extend_schema(tags=["Releases"], responses={200: ReleasesProductResponseSerializer})
+    def get(self, request, *args, **kwargs):
+        try:
+            release = ReleasesProductModel.objects.filter(priority=1).first()
+            if not release:
+                release = ReleasesProductModel.objects.order_by('-id').first()
+
+            if not release:
+                raise NotFound("No release found.")
+
+            serializer = self.get_serializer(release)
+            return Response(serializer.data)
+        except NotFound as e:
+            raise NotFound("No release found.")
+        except Exception as e:
+            raise e

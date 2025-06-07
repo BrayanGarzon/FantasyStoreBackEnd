@@ -29,6 +29,7 @@ class ProductModel(models.Model):
     care = models.TextField(max_length=255, null=True)
     details = models.TextField(null=True)
 
+
     def __str__(self):
         return self.name
 
@@ -37,3 +38,19 @@ class ProductModel(models.Model):
         verbose_name_plural = _("Productos")
         ordering = ("name",)
 
+
+class ReleasesProductModel(models.Model):
+    name = models.CharField(_("Nombre del Producto"), max_length=255)
+    description = models.TextField(null=True)
+    title = models.CharField(_("Titulo"), max_length=255)
+    subtitle = models.CharField(_("Subtitle"), max_length=255)
+    sub_description = models.TextField(null=True)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    priority = models.IntegerField(default=1)
+    products = models.ManyToManyField(ProductModel, related_name='releases', blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = _("Lanzamientos")
+        verbose_name = _("Lanzamiento")
+        ordering = ['priority']

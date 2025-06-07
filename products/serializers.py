@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from main.models import Image
 from main.serializers import ImageSerializer, ColorResponseSerializer, SizeResponseSerializer
-from .models import  CategoryProductModel, ProductDistributionModel, ProductModel
+from .models import  CategoryProductModel, ProductDistributionModel, ProductModel, ReleasesProductModel
 
 
 class CategoryProductRequestSerializer(serializers.ModelSerializer):
@@ -53,3 +53,10 @@ class ProductResponseSerializer(serializers.ModelSerializer):
         model = ProductModel
         fields = ['id', 'name', 'description', 'stock', 'is_active', 'image', 'category', 'distributions', 'price', 'care', 'details']
 
+
+class ReleasesProductResponseSerializer(serializers.ModelSerializer):
+    image = ImageSerializer(read_only=True)
+
+    class Meta:
+        model = ReleasesProductModel
+        fields = ('id', 'name', 'description', 'subtitle', 'sub_description', 'image',)

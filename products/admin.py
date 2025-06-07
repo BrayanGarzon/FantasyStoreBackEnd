@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import CategoryProductModel, ProductDistributionModel, ProductModel
+
+from .models import CategoryProductModel, ProductDistributionModel, ProductModel, ReleasesProductModel
 # Register your models here.
 
 @admin.register(CategoryProductModel)
@@ -13,3 +14,11 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(ProductDistributionModel)
 class ProductDistributionAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(ReleasesProductModel)
+class ReleasesProductsLastReleaseApiView(admin.ModelAdmin):
+    list_display = ('id', 'name', 'created', 'priority')
+    search_fields = ('id', 'name')
+
+    filter_horizontal = ('products',)
