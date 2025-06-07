@@ -8,8 +8,11 @@ from rest_framework.response  import Response
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
-from .serializers import RegisterSerializer, UserResponseSerializer, UserUpdateSerializer, UploadImageProfileSerializer
-from .models import User
+from rest_framework.viewsets import ModelViewSet
+
+from .serializers import RegisterSerializer, UserResponseSerializer, UserUpdateSerializer, UploadImageProfileSerializer, \
+    RatesUserResponseSerializer
+from .models import User, RatesUser
 
 logger = logging.getLogger(__name__)
 
@@ -192,17 +195,14 @@ class CurrentUserAPIView(GenericAPIView):
 
         return Response(current_user.data)
 
-
-@extend_schema(tags=["Users"])
-class DeliveriesListAPIView(generics.ListAPIView):
-    permission_classes = [permissions.AllowAny]
-    serializer_class = UserResponseSerializer
-
-    def get_queryset(self):
-        delivery_group = Group.objects.get(name="Delivery")
-        return User.objects.filter(groups=delivery_group)
+@extend_schema(tags=["Rates Users"])
+class RatesUserApiView(ModelViewSet):
+    serializer_class = RatesUserResponseSerializer
+    queryset = RatesUser.objects.all()
 
 
-
-
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]
 
