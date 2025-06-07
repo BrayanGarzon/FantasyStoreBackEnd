@@ -60,3 +60,8 @@ class ReleasesProductResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReleasesProductModel
         fields = ('id', 'name', 'description', 'subtitle', 'sub_description', 'image',)
+
+
+class ProductsReleasesResponseSerializer(serializers.Serializer):
+    products = ProductResponseSerializer(many=True, read_only=True)
+    releases = ReleasesProductResponseSerializer(read_only=True)

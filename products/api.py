@@ -1,14 +1,14 @@
-from django.contrib.admin import action
 from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, status, generics
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from .models import CategoryProductModel, ProductModel, ReleasesProductModel
 from .serializers import CategoryProductRequestSerializer, CategoryProductResponseSerializer, ProductResponseSerializer, \
-    ProductRequestSerializer, ReleasesProductResponseSerializer
+    ProductRequestSerializer, ReleasesProductResponseSerializer, ProductsReleasesResponseSerializer
 
 
 @extend_schema(tags=['Categories'])
@@ -84,6 +84,34 @@ class ProductsApiView(ModelViewSet):
         serializer_response = ProductResponseSerializer(serializer.instance)
         headers = self.get_success_headers(serializer_response.data)
         return Response(serializer_response.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+@extend_schema(tags=['Products'])
+class ProductReleasesApiView(APIView):
+
+    queryset = ReleasesProductModel.objects.all()
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]
+
+    @extend_schema(tags=['Products'], responses={200: ProductsReleasesResponseSerializer})
+    def get(self, request, *args, **kwargs):
+        release_id = self.kwargs.get('release_id')
+
+        try:
+            release = ReleasesProductModel.objects.get(id=release_id)
+        except ReleasesProductModel.DoesNotExist:
+            raise NotFound("El lanzamiento no existe")
+
+        products = release.products.all()
+        serializer = ProductsReleasesResponseSerializer({
+            'products': products,
+            'releases': release,
+        })
+        return Response(serializer.data)
+
 
 @extend_schema(tags=["Releases"])
 class ReleasesProductsApiView(ModelViewSet):
