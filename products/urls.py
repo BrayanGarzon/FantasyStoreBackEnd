@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from .api import CategoriesApiView, ProductsApiView, ReleasesProductsApiView, ReleasesProductsLastReleaseApiView
+from .api import CategoriesApiView, ProductsApiView, ReleasesProductsApiView, ReleasesProductsLastReleaseApiView, ProductReleasesApiView
 
 categoriesRouter = routers.DefaultRouter()
 productsRouter = routers.DefaultRouter()
@@ -14,5 +14,6 @@ apiurls = ([
     path("categories/", include(categoriesRouter.urls)),
     path("products/", include(productsRouter.urls)),
     path("releases/last/", ReleasesProductsLastReleaseApiView.as_view(), name="releases-last"),
+    path("products/releases/<int:release_id>/", ProductReleasesApiView.as_view(), name="products-releases"),
     path("", include(releasesProductsRouter.urls)),
 ], 'products')
