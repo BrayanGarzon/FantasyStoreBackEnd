@@ -7,7 +7,7 @@ from urllib.parse import urljoin
 from django.contrib.auth.models import Group
 
 
-from .models import User
+from .models import User, RatesUser
 
 
 
@@ -86,3 +86,15 @@ class UploadImageProfileSerializer(serializers.ModelSerializer):
         model = User
         fields = ['avatar',]
 
+
+class RatesUserResponseSerializer(serializers.ModelSerializer):
+    user = UserResponseSerializer()
+
+    class Meta:
+        model = RatesUser
+        fields = ('id', 'user', 'rates', 'comment', 'created')
+
+class RatesUserRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RatesUser
+        fields = ('rates', 'comment')

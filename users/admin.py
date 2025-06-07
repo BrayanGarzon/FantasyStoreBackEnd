@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
-from .models import User
+from .models import User, RatesUser
 
 
 # Register your models here.
@@ -27,3 +28,6 @@ class UserAdmin(admin.ModelAdmin):
 
     groups_name.short_description = _("Roles")
 
+@admin.register(RatesUser)
+class RatesUserAdmin(admin.ModelAdmin):
+    pass

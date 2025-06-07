@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -71,3 +72,20 @@ class User(AbstractUser):
         verbose_name_plural = _("Usuarios")
         get_latest_by = 'created'
         ordering = ['-created', '-modified']
+
+
+class RatesUser(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rate = models.FloatField(
+        default=1,
+        validators=[MinValueValidator(1.0), MaxValueValidator(5.0)],
+        help_text=_("Valor entre 1 y 5")
+    )
+
+    comment = models.CharField()
+    created = models.DateTimeField(auto_now=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("Comentario")
+        verbose_name_plural = _("Comentarios")
