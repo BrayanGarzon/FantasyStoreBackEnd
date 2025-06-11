@@ -87,6 +87,25 @@ class ProductsApiView(ModelViewSet):
 
 
 @extend_schema(tags=['Products'])
+class ProductFavoriteApiView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+
+    @extend_schema(
+        tags=['Products'],
+        responses={
+            200: ProductResponseSerializer(many=True),
+        }
+    )
+    def get(self, request, *args, **kwargs):
+        try:
+            products = ProductModel.objects.all().filter(favorite=True)
+            serializer = ProductResponseSerializer(products, many=True, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except ProductModel.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+@extend_schema(tags=['Products'])
 class ProductReleasesApiView(APIView):
 
     queryset = ReleasesProductModel.objects.all()

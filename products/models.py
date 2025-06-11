@@ -28,6 +28,8 @@ class ProductModel(models.Model):
     price = models.IntegerField(default=0)
     care = models.TextField(max_length=255, null=True)
     details = models.TextField(null=True)
+    favorite = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):

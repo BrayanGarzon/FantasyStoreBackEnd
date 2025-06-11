@@ -142,7 +142,7 @@ class Image(models.Model):
     type = models.ForeignKey(ImageTypeModel, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return self.image.url.split('/')[-1]
+        return f"{self.id} - {self.image.url.split('/')[-1]}"
 
 
 class SingletonModel(models.Model):
